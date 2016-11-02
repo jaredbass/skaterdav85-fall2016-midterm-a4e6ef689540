@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Question 4</title>
+</head>
+<body>
+
+<script src="jquery-3.1.1.js"></script>
+<script>
+
+//constructor is not passed in any parameters 
+  function CommentList(){ 
+
+        }
+
+//declare prototype fetch 
+CommentList.prototype.fetch = function(){
+  //create the promise
+var promise = $.ajax({
+   url: 'http://itp-api.herokuapp.com/api/comments',
+   type: 'get' //doing a get request
+        }).then(function(json){
+          var comments = json.data; //initialize the json data
+          var commentMap = comments.map(function(comment){ //map it
+
+  return {
+   id: comment.id,
+   body: comment.attributes.body
+  }
+ });
+
+ return commentMap;
+});
+
+ return promise;
+}
+  
+  var commentList = new CommentList();
+  commentList.fetch().then(function(comments) {
+    
+    console.log(comments);
+    
+  });
+</script>
+
+</body>
+</html>

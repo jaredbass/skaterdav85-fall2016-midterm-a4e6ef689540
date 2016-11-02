@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Question 1</title>
+</head>
+<body>
+
+<script src="jquery-3.1.1.js"></script>
+<script src="handlebars-v4.0.5.js"></script>
+<script type="template/handlebars" id="me-template">
+
+
+  {{#each data}}
+  <span class="fullname">
+  <h2> First Name:{{firstName}} 
+  <br>
+  Last Name: {{lastName}} </h2>
+  <ul>
+  <li> {{openSourceProjects.[0].name}} </li>
+  <li>{{openSourceProjects.[1].name}} </li>
+  <li>{{openSourceProjects.[2].name}} </li>
+  <li>{{openSourceProjects.[3].name}} </li>
+  <li>{{openSourceProjects.[4].name}} </li>
+  </ul>
+  
+  {{#if isAdmin}}
+  Admin true
+  {{else}}
+  Not admin
+  
+  {{/if}}
+  
+  </span>
+
+  {{/each}}
+  
+  </script>
+<div id="response">
+  </div>
+  
+  <script>
+    
+  
+var url = 'http://itp-api.herokuapp.com/api/v1/me';
+
+  var promise = $.ajax({
+      url: url,
+      type: 'get',
+      dataType: 'json'
+    
+    
+    }).then(function(response){
+  
+        var templateSource = $('#me-template').html();
+        var template = Handlebars.compile(templateSource);
+
+        var html = template({
+          data: response
+        });
+        
+        $('#response').html(html);
+         },function(){
+
+         console.log("there was an error");
+    
+     });
+  
+
+  </script>
+</body>
+</html>
